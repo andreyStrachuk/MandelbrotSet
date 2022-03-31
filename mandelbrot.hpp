@@ -5,6 +5,8 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <math.h>
+#include <SFML/Graphics.hpp>
+#include <string>
 
 #define ASSERT_OK(smth, doSmth)         do { if (smth) { doSmth;}} while (0)
 
@@ -28,7 +30,7 @@ struct Screen {
 
 int ScreenInit (Screen *scr, const int width, const int height);
 
-int MandelbrotComputing (Screen *scr);
+int MandelbrotComputing (Screen *scr, double *xc, double *yc, double *scale);
 
 void DestrScreen (Screen *scr);
 

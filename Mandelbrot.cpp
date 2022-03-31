@@ -1,26 +1,33 @@
-#include <SFML/Graphics.hpp>
-#include <stdio.h>
-#include "mandelbrot.h"
+#include "mandelbrot.hpp"
 
 int main()
 {
     Screen scr {};
     ScreenInit (&scr, 800, 600);
 
-    MandelbrotComputing (&scr);
-
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
-    sf::Image im;
-    im.create (800, 600, (u_int8_t *)scr.color);
+    sf::Clock clock;
+    sf::Time time;
 
-    sf::Texture texture;
-    texture.create (800, 600);
-    texture.update (im);
+    sf::Font font;
+    font.loadFromFile ("Ubuntu-Bold.ttf");
 
-    sf::Sprite spr;
-    spr.setTexture (texture);
+    double scale = 1.;
+    double xc = 0, yc = 0;
 
     while (window.isOpen()) {
+        MandelbrotComputing (&scr, &xc, &yc, &scale);
+
+        sf::Image im;
+        im.create (800, 600, (u_int8_t *)scr.color);
+
+        sf::Texture texture;
+        texture.create (800, 600);
+        texture.update (im);
+
+        sf::Sprite spr;
+        spr.setTexture (texture);
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -28,10 +35,16 @@ int main()
                 window.close();
         }
 
-        window.clear();
-        texture.update(im);
-        window.draw(spr);
-        window.display();
+        time = clock.getElapsedTime (); 
+        sf::Text txt (std::to_string (1 / time.asSeconds()), font);
+
+        clock.restart().asSeconds(); 
+
+        window.clear ();
+        texture.update (im);
+        window.draw (spr);
+        window.draw (txt);
+        window.display ();
     }
 
     return 0;

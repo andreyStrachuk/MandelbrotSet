@@ -14,7 +14,7 @@ int ScreenInit (Screen *scr, const int width, const int height) {
     return OK;
 }
 
-int MandelbrotComputing (Screen *scr) {
+int MandelbrotComputing (Screen *scr, double *xc, double *yc, double *scale) {
     assert (scr);
 
     int maxN = 256;
@@ -22,16 +22,19 @@ int MandelbrotComputing (Screen *scr) {
     double dX = 1. / 200;
     double dY = 1. / 200;
 
-    double xc = 0;
-    double yc = 0.6;
-    double scale = 1.;
-
     double maxDistance = 100.;
+
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Right))   *xc -= dX * 50.;
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Left))    *xc += dX * 50.;
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Up))      *yc += dY * 50.;
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Down))    *yc -= dY * 50.;
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Q))       *scale += dX * 50.;
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::W))       *scale -= dX * 50.;
 
     for (int iterY = 0; iterY < scr->height; iterY++) {
 
-        double x0 = (-300. * dX - 1. + xc) * scale;
-        double y0 = (((double)iterY - 400.) * dY + yc) * scale;
+        double x0 = (-300. * dX - 1. + *xc) * *scale;
+        double y0 = (((double)iterY - 400.) * dY + 0.6 + *yc) * *scale;
 
         for (int iterX = 0; iterX < scr->width; iterX++, x0 = x0 + dX) {
 
