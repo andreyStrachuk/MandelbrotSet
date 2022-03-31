@@ -1,4 +1,4 @@
-#include "mandelbrot.h"
+#include "mandelbrot.hpp"
 
 int X0 = 0.;
 int Y0 = 0;
