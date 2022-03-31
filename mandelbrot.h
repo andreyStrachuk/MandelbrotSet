@@ -19,15 +19,8 @@ enum RESOFCMP {
     LESS
 };
 
-struct Pixel {
-    double x;
-    double y;
-
-    u_int32_t color;
-};
-
 struct Screen {
-    Pixel *pxls;
+    u_int32_t *color;
 
     int width;
     int height;
@@ -42,5 +35,7 @@ void DestrScreen (Screen *scr);
 int DoubleComp (const double value_1, const double value_2);
 
 double CalculateMachineEpsilon ();
+
+u_int32_t SetColor (const int n);
 
 #endif

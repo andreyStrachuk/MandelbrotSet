@@ -4,9 +4,9 @@ int X0 = 0.;
 int Y0 = 0;
 
 int ScreenInit (Screen *scr, const int width, const int height) {
-    void *ptr = calloc (width * height, sizeof (Pixel));
+    void *ptr = calloc (width * height, sizeof (u_int32_t));
     ASSERT_OK (ptr == nullptr, return NULLPTR);
-    scr->pxls = (Pixel *)ptr;
+    scr->color = (u_int32_t *)ptr;
 
     scr->width = width;
     scr->height = height;
@@ -23,15 +23,15 @@ int MandelbrotComputing (Screen *scr) {
     double dY = 1. / 200;
 
     double xc = 0;
-    double yc = 0;
+    double yc = 0.6;
     double scale = 1.;
 
     double maxDistance = 100.;
 
     for (int iterY = 0; iterY < scr->height; iterY++) {
 
-        double x0 = (-300. * dX - 1 + xc) * scale;
-        double y0 = (((double)iterY - 400.) * dY + yc + 0.6) * scale;
+        double x0 = (-300. * dX - 1. + xc) * scale;
+        double y0 = (((double)iterY - 400.) * dY + yc) * scale;
 
         for (int iterX = 0; iterX < scr->width; iterX++, x0 = x0 + dX) {
 
@@ -54,7 +54,7 @@ int MandelbrotComputing (Screen *scr) {
                 y = X_Y + X_Y + y0;
             }
 
-            (scr->pxls + scr->width * iterY + iterX)->color = n * 25;
+            *(scr->color + scr->width * iterY + iterX) = SetColor (n);     
         }
 
     }
@@ -65,7 +65,7 @@ int MandelbrotComputing (Screen *scr) {
 void DestrScreen (Screen *scr) {
     assert (scr);
 
-    free (scr->pxls);
+    free (scr->color);
 
     scr->height = 0;
     scr->width = 0;
@@ -92,4 +92,13 @@ double CalculateMachineEpsilon () {
     }
 
     return epsilon;
+}
+
+u_int32_t SetColor (const int n) {
+
+    u_int32_t col = n * 25;
+    col <<= 24;
+    col += 255;
+
+    return col;
 }
