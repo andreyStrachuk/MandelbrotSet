@@ -11,32 +11,41 @@ int ScreenInit (Screen *scr, const int width, const int height) {
     scr->width = width;
     scr->height = height;
 
+    scr->dX = 1. / 200;
+    scr->dY = 1. / 200;
+
+    scr->xc = -0.6;
+    scr->yc = 0.35;
+
     return OK;
 }
 
-int MandelbrotComputing (Screen *scr, double *xc, double *yc, double *scale) {
+int MandelbrotComputing (Screen *scr) {
     assert (scr);
 
     int maxN = 256;
 
-    double dX = 1. / 200;
-    double dY = 1. / 200;
-
     double maxDistance = 100.;
 
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Right))   *xc -= dX * 50.;
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Left))    *xc += dX * 50.;
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Up))      *yc += dY * 50.;
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Down))    *yc -= dY * 50.;
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Q))       *scale += dX * 50.;
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::W))       *scale -= dX * 50.;
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Right))   scr->xc -= (scr->dX * 50.);
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Left))    scr->xc += (scr->dX * 50.);
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Up))      scr->yc += (scr->dY * 50.);
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Down))    scr->yc -= (scr->dY * 50.);
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Q)) {
+        scr->dY /= 1.5;
+        scr->dX /= 1.5; 
+    }
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::W)) {
+        scr->dY *= 1.5;
+        scr->dX *= 1.5; 
+    }
 
     for (int iterY = 0; iterY < scr->height; iterY++) {
 
-        double x0 = (-300. * dX - 1. + *xc) * *scale;
-        double y0 = (((double)iterY - 400.) * dY + 0.6 + *yc) * *scale;
+        double x0 = -300. * scr->dX + scr->xc * scr->dX * 300.;
+        double y0 = ((double)iterY - 400.) * scr->dY + scr->yc * scr->dY * 400;
 
-        for (int iterX = 0; iterX < scr->width; iterX++, x0 = x0 + dX) {
+        for (int iterX = 0; iterX < scr->width; iterX++, x0 = x0 + scr->dX) {
 
             double x = x0;
             double y = y0;

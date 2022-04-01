@@ -24,13 +24,19 @@ enum RESOFCMP {
 struct Screen {
     u_int32_t *color;
 
+    double xc;
+    double yc;
+
+    double dX;
+    double dY;
+
     int width;
     int height;
 };
 
 int ScreenInit (Screen *scr, const int width, const int height);
 
-int MandelbrotComputing (Screen *scr, double *xc, double *yc, double *scale);
+int MandelbrotComputing (Screen *scr);
 
 void DestrScreen (Screen *scr);
 

@@ -12,11 +12,8 @@ int main()
     sf::Font font;
     font.loadFromFile ("Ubuntu-Bold.ttf");
 
-    double scale = 1.;
-    double xc = 0, yc = 0;
-
     while (window.isOpen()) {
-        MandelbrotComputing (&scr, &xc, &yc, &scale);
+        MandelbrotComputing (&scr);
 
         sf::Image im;
         im.create (800, 600, (u_int8_t *)scr.color);
