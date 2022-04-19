@@ -1,7 +1,7 @@
 
 CC=g++
 
-CFLAGS=-Werror -Wpedantic -Wextra -O3 -c
+CFLAGS= -O2 -Wpedantic -Wextra -Wall -mavx -mavx2 -c
 
 SRC=Mandelbrot.cpp MandelbrotFunctions.cpp
 SRC_O=Mandelbrot.o MandelbrotFunctions.o
@@ -18,3 +18,6 @@ $(Mandelbrot): $(SRC)
 
 $(Mbrot_o): $(SRC_O)
 	$(CC) $(SRC_O) -o $(Mbrot_o) $(SRC_SFML)
+
+clean:
+	rm *.o

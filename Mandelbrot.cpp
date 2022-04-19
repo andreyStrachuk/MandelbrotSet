@@ -1,11 +1,14 @@
 #include "mandelbrot.hpp"
 
+const int width = 800;
+const int height = 600;
+
 int main()
 {
     Screen scr {};
-    ScreenInit (&scr, 800, 600);
+    ScreenInit (&scr, width, height);
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+    sf::RenderWindow window(sf::VideoMode(scr.width, scr.height), "SFML window");
     sf::Clock clock;
     sf::Time time;
 
@@ -13,13 +16,16 @@ int main()
     font.loadFromFile ("Ubuntu-Bold.ttf");
 
     while (window.isOpen()) {
+        clock.restart().asSeconds(); 
         MandelbrotComputing (&scr);
+        time = clock.getElapsedTime (); 
+        sf::Text txt (std::to_string (1 / time.asSeconds()), font);
 
         sf::Image im;
-        im.create (800, 600, (u_int8_t *)scr.color);
+        im.create (scr.width, scr.height, (u_int8_t *)scr.color);
 
         sf::Texture texture;
-        texture.create (800, 600);
+        texture.create (scr.width, scr.height);
         texture.update (im);
 
         sf::Sprite spr;
@@ -32,17 +38,14 @@ int main()
                 window.close();
         }
 
-        time = clock.getElapsedTime (); 
-        sf::Text txt (std::to_string (1 / time.asSeconds()), font);
-
-        clock.restart().asSeconds(); 
-
         window.clear ();
         texture.update (im);
         window.draw (spr);
         window.draw (txt);
         window.display ();
     }
+
+    DestrScreen (&scr);
 
     return 0;
 }
