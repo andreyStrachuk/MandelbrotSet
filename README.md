@@ -17,4 +17,4 @@ I used AVX2 instructions for storing 64 bit double values and computing the colo
 | :----- | :------------------- | :------------------- | :------------------- |
 |FPS| ~85| ~40|~2.3|
 
-Surspisingly, program operates 36 times faster after optimizations. Noticeably, standart assert from assert.h may significantly slow down the program. 
+Surprisingly, program operates 36 times faster after optimizations. Noticeably, standart assert from assert.h may significantly slow down the program. 
