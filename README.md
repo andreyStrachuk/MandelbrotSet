@@ -11,10 +11,10 @@ $ ./man
 
 ## Optimizations
 
-I used AVX2 instructions for storing 64 bit double values and computing the color. Thus, for one loop interation program manages to handle 4 values.
+I used AVX2 instructions for storing 64 bit double values and computing the color. Thus, for one loop iteration program manages to handle 4 values.
 
-|        | AVX2 without asserts | AVX2 without asserts  | No optimizations |
-| :----- | :------------------- | :------------------- | :------------------- |
-|FPS| ~85| ~40|~2.3|
+|        | AVX2 | No optimizations |
+| :----- | :------------------- | :------------------- |
+|FPS| ~85|  ~21|
 
-Surprisingly, program operates 36 times faster after optimizations. Noticeably, standart assert from assert.h may significantly slow down the program. 
+As a result, program operates 4 times faster after optimizations.

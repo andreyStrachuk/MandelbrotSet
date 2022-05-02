@@ -14,12 +14,18 @@ int main()
 
     sf::Font font;
     font.loadFromFile ("Ubuntu-Bold.ttf");
+    int i = 0;
 
     while (window.isOpen()) {
-        clock.restart().asSeconds(); 
+        if (i == 10) {
+            clock.restart().asSeconds();
+            i = 0;
+        }
+
         MandelbrotComputing (&scr);
-        time = clock.getElapsedTime (); 
-        sf::Text txt (std::to_string (1 / time.asSeconds()), font);
+        time = clock.getElapsedTime ();
+        sf::Text txt (std::to_string (i / time.asSeconds()), font);
+        i++;
 
         sf::Image im;
         im.create (scr.width, scr.height, (u_int8_t *)scr.color);

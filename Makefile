@@ -1,7 +1,7 @@
 
 CC=g++
 
-CFLAGS= -O2 -Wpedantic -Wextra -Wall -mavx -mavx2 -c
+CFLAGS= -O2 -Wpedantic -Wextra -Wall -mavx -mavx2 -c -DNDEBUG
 
 SRC=Mandelbrot.cpp MandelbrotFunctions.cpp
 SRC_O=Mandelbrot.o MandelbrotFunctions.o
